@@ -38,7 +38,7 @@ describe('Integration test for /teams', () => {
   it('should return a team by id', async () => {
     sinon.stub(Model, 'findOne').resolves(teamsMock[0]);
 
-    const res = await chai.request(app).get('/teams/:1');
+    const res = await chai.request(app).get('/teams/1');
 
     expect(res.status).to.equal(200);
     expect(res.body).to.deep.equal(teamsMock[0]);
@@ -47,7 +47,7 @@ describe('Integration test for /teams', () => {
   it('should return a custom message if team is not found', async () => {
     sinon.stub(Model, 'findOne').resolves(undefined);
 
-    const res = await chai.request(app).get('/teams/:0');
+    const res = await chai.request(app).get('/teams/1');
 
     expect(res.status).to.equal(404);
     expect(res.body).to.be.deep.equal({ message: 'Team not found' });
@@ -58,8 +58,8 @@ describe('Integration test for /teams', () => {
 
     const res = await chai.request(app).get('/teams/:a');
 
-    expect(res.status).to.equal(404);
-    expect(res.body).to.be.deep.equal({ message: 'Team not found' });
+    expect(res.status).to.equal(400);
+    expect(res.body).to.be.deep.equal({ message: 'Id must be a number' });
   });
   
 });
