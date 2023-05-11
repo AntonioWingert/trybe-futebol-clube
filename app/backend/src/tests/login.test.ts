@@ -25,17 +25,17 @@ describe('Integration test for /login', () => {
     expect(res.body).to.have.property('token');
   });
 
-  it('should return 401 if email is not provided', async () => {
+  it('should return 400 if email is not provided', async () => {
     const res = await chai.request(app).post('/login').send(noEmail);
 
-    expect(res.status).to.equal(401);
+    expect(res.status).to.equal(400);
     expect(res.body).to.deep.equal({ message: 'All fields must be filled' });
   });
 
-  it('should return 401 if password is not provided', async () => {
+  it('should return 400 if password is not provided', async () => {
     const res = await chai.request(app).post('/login').send(noPassword);
 
-    expect(res.status).to.equal(401);
+    expect(res.status).to.equal(400);
     expect(res.body).to.deep.equal({ message: 'All fields must be filled' });
   });
 

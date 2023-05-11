@@ -12,15 +12,14 @@ const validateToken = (
     return res.status(401).json({ message: 'Token not found' });
   }
 
-  const validToken = verifyToken(token);
+  try {
+    const validToken = verifyToken(token);
+    req.body.data = validToken;
 
-  if (!validToken) {
+    return next();
+  } catch (error) {
     return res.status(401).json({ message: 'Token must be a valid token' });
   }
-
-  req.body.role = validToken;
-
-  return next();
 };
 
 export default validateToken;

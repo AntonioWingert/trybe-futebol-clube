@@ -25,7 +25,8 @@ export default class LoginController {
     next: NextFunction,
   ): Promise<Response<string> | undefined> => {
     try {
-      const { role } = req.body;
+      const { email } = req.body.data;
+      const role = await LoginService.getRole(email);
       return res.status(200).json({ role });
     } catch (error) {
       next(error);
