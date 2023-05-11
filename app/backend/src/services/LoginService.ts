@@ -12,9 +12,9 @@ export default class LoginService {
       throw new HttpException(401, 'Invalid email or password');
     }
 
-    const { email, role, password } = userData.dataValues;
+    const { email, role } = userData.dataValues;
 
-    return generateToken({ email, password, role });
+    return generateToken({ email, role });
   }
 
   public static async getRole(email: string): Promise<string> {
