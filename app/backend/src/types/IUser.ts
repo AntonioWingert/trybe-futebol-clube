@@ -5,5 +5,6 @@ export type IUser = {
 
 export type IToken = {
   email: string;
+  password: string;
   role: string;
 };

@@ -8,12 +8,16 @@ export default class LoginService {
   public static async login(user: IUser): Promise<string> {
     const userData = await UserModel.findOne({ where: { email: user.email } });
 
-    if (!userData || !bcrypt.compareSync(user.password, userData.dataValues.password)) {
+    if (!userData) {
       throw new HttpException(401, 'Invalid email or password');
     }
 
-    const { email, role } = userData.dataValues;
+    if (!bcrypt.compareSync(user.password, userData.dataValues.password)) {
+      throw new HttpException(401, 'Invalid email or password');
+    }
 
-    return generateToken({ email, role });
+    const { email, role, password } = userData.dataValues;
+
+    return generateToken({ email, password, role });
   }
 }
