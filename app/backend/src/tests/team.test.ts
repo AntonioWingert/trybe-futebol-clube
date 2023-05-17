@@ -56,10 +56,9 @@ describe('Integration test for /teams', () => {
   it('should return a custom message if team id is not a number', async () => {
     sinon.stub(Model, 'findOne').resolves(undefined);
 
-    const res = await chai.request(app).get('/teams/:a');
+    const res = await chai.request(app).get('/teams/NaN');
 
     expect(res.status).to.equal(400);
     expect(res.body).to.be.deep.equal({ message: 'Id must be a number' });
-  });
-  
+  });  
 });

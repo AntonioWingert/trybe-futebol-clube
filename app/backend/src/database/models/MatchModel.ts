@@ -2,7 +2,18 @@ import { DataTypes, Model } from 'sequelize';
 import db from '.';
 import TeamModel from './TeamModel';
 
-class MatchModel extends Model {
+export interface MatchAttributes {
+  id: number;
+  homeTeamId: number;
+  homeTeamGoals: number;
+  awayTeamId: number;
+  awayTeamGoals: number;
+  inProgress: boolean;
+}
+
+export type MatchCreationAttributes = Omit<MatchAttributes, 'id'>;
+
+class MatchModel extends Model <MatchAttributes, MatchCreationAttributes> {
   declare id: number;
   declare homeTeamId: number;
   declare homeTeamGoals: number;
@@ -59,14 +70,14 @@ MatchModel.init({
   timestamps: false,
 });
 
-MatchModel.belongsTo(TeamModel, {
-  foreignKey: 'homeTeamId',
-  as: 'homeTeam',
-});
+MatchModel.belongsTo(
+  TeamModel,
+  { as: 'homeTeam', foreignKey: 'homeTeamId' },
+);
 
-MatchModel.belongsTo(TeamModel, {
-  foreignKey: 'awayTeamId',
-  as: 'awayTeam',
-});
+MatchModel.belongsTo(
+  TeamModel,
+  { as: 'awayTeam', foreignKey: 'awayTeamId' },
+);
 
 export default MatchModel;
