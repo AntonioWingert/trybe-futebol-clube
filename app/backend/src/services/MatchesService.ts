@@ -29,15 +29,11 @@ export default class MatchesService {
   }
 
   public static async updateFinish(id: number): Promise<string> {
-    const [updatedRows] = await MatchModel.update({ inProgress: false }, {
+    await MatchModel.update({ inProgress: false }, {
       where: { id },
     });
 
-    if (updatedRows === 0) {
-      throw new HttpException(404, 'Match not found');
-    }
-
-    return 'Match finished';
+    return 'finished';
   }
 
   public static async updateGoals(
